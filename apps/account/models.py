@@ -58,8 +58,15 @@ class Author(BaseModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name=_('User'))
 
     photo = models.ImageField(verbose_name=_("Photo"), upload_to='authors', default='user.png', null=True, blank=True)
-    region = models.ForeignKey(Region, verbose_name=_('Region'),)
-    bio = RichTextField(verbose_name=_("About author"))
+    region = models.ForeignKey(Region, verbose_name=_('Region'), on_delete=models.CASCADE)
+    post_code = models.IntegerField(verbose_name=_('Post code'), default=0)
+    address = models.CharField(verbose_name=_('Address'), max_length=255)
+    instagram = models.CharField(verbose_name=_('Instagram'), max_length=255)
+    imkon = models.CharField(verbose_name=_('Imkon'), max_length=255)
+    linkedin = models.CharField(verbose_name=_('Linkedin'), max_length=255)
+    job = models.CharField(verbose_name=_('Linkedin'), max_length=100)
+    position = models.ForeignKey(JobPosition, verbose_name=_('Job Position'), on_delete=models.CASCADE)
+    bio = RichTextField(verbose_name=_("About author"), null=True)
     created_at = models.DateTimeField(verbose_name=_('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name=_('Update at'), auto_now=True)
 

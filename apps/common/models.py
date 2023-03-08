@@ -38,6 +38,11 @@ class GenderType(models.TextChoices):
     FEMALE = "Ayol"
 
 
+class SalesType(models.TextChoices):
+    BESTSELLER = "Bestseller"
+    RECOMMENDED = "Tavsiya etilgan"
+
+
 class Country(models.Model):
     name = models.CharField(verbose_name=_('Name'), max_length=50)
 
