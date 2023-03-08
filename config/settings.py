@@ -43,11 +43,10 @@ LOCAL_APPS = [
 EXTRA_MODULES = [
     'ckeditor',
     'phonenumber_field',
-    'modeltranslation',
     'drf_yasg',
     'rest_framework',
     'rest_framework_simplejwt',
-    'thumbnails'
+    'thumbnails',
     'jazzmin'
 ]
 

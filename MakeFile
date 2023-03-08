@@ -1,0 +1,22 @@
+mig:
+	python3 manage.py makemigrations
+	python3 manage.py migrate
+
+unmig:
+	find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
+	python3 manage.py ram
+
+ram:
+	python3 manage.py ram
+
+compile:
+	python3 manage.py makemessages -l uz --ignore=venv
+	python3 manage.py makemessages -l ru --ignore=venv
+	python3 manage.py compilemessages
+
+run:
+	python3 manage.py runserver
+
+admin:
+	python3 manage.py createsuperuser
+
