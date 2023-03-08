@@ -58,7 +58,7 @@ class Author(BaseModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name=_('User'))
 
     photo = models.ImageField(verbose_name=_("Photo"), upload_to='authors', default='user.png', null=True, blank=True)
-    region = models.ForeignKey(Region, verbose_name=_('Region'))
+    region = models.ForeignKey(Region, verbose_name=_('Region'),)
     bio = RichTextField(verbose_name=_("About author"))
     created_at = models.DateTimeField(verbose_name=_('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name=_('Update at'), auto_now=True)
