@@ -1,6 +1,8 @@
 from pathlib import Path
 import environ
 import os
+from config.ckeditor_conf import *  # noqa
+from config.jazzmin_conf import *  # noqa
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -45,6 +47,7 @@ EXTRA_MODULES = [
     'drf_yasg',
     'rest_framework',
     'rest_framework_simplejwt',
+    'thumbnails'
     'jazzmin'
 ]
 
