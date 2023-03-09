@@ -50,6 +50,21 @@ class SalesType(models.TextChoices):
     RECOMMENDED = "Tavsiya etilgan"
 
 
+class PaymentType(models.TextChoices):
+    PAYME = "Payme"
+    APELSIN = "Apelsin"
+    KPAY = "Kpay"
+    CLICK = "Click"
+    VISA = "Visa"
+    MASTERCARD = "Mastercard"
+
+
+class PaymentStatusType(models.TextChoices):
+    SUCCESS = "Success"
+    FAILED = "Failed"
+    WAITING = "Waiting"
+
+
 class Country(models.Model):
     name = models.CharField(verbose_name=_('Name'), max_length=50)
 
