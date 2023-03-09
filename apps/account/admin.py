@@ -1,8 +1,9 @@
 from django.contrib import admin
+from django.contrib.admin import ModelAdmin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 
-from .models import User, Author
+from .models import User, Author, JobPosition
 
 
 class CustomUserAdmin(UserAdmin):
@@ -39,3 +40,8 @@ class AuthorAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Author, AuthorAdmin)
+
+
+@admin.register(JobPosition)
+class JobPositionModelAdmin(ModelAdmin):
+    list_display = ('id', 'name')
