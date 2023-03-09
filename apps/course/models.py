@@ -1,11 +1,10 @@
+from ckeditor.fields import RichTextField
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 from django.utils.translation import gettext as _
-from ckeditor.fields import RichTextField
 
 from ..account.models import Author
 from ..common.models import BaseModel, SalesType, Region
-from phonenumber_field.modelfields import PhoneNumberField
 
 
 class Category(BaseModel):
