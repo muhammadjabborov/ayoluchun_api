@@ -34,12 +34,6 @@ class BaseModel(Model):
         abstract = True
 
 
-class AnnouncementView(BaseModel):
-    device_id = models.CharField(max_length=100)
-    blog = ForeignKey('blog.Blog', CASCADE)
-    user = models.ForeignKey('account.User', SET_NULL, null=True, blank=True)
-
-
 class GenderType(models.TextChoices):
     MALE = "Erkak"
     FEMALE = "Ayol"

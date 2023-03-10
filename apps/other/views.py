@@ -1,4 +1,4 @@
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, ListCreateAPIView
 from rest_framework.parsers import JSONParser, MultiPartParser
 # from .models import *
 from .serializers import *
@@ -6,28 +6,28 @@ from .serializers import *
 
 # Create your views here.
 
-class AdvertisementAPIView(ListAPIView):
+class ListAdvertisementAPIView(ListAPIView):
     queryset = Advertisement.objects.all()
     serializer_class = AdvertisementSerializer
     parser_classes = (MultiPartParser,)
 
 
-class RulesOfUseAPIView(ListAPIView):
+class ListRulesOfUseAPIView(ListAPIView):
     queryset = RulesOfUse.objects.all()
     serializer_class = RulesOfUseSerializer
 
 
-class ContactAPIView(ListAPIView):
+class ListContactAPIView(ListCreateAPIView):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
 
 
-class MessageAPIView(ListAPIView):
+class ListMessageAPIView(ListCreateAPIView):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
 
 
-class Notification(ListAPIView):
+class ListNotification(ListAPIView):
     queryset = Notification.objects.all()
     serializer_class = NotificationSerializer
     parser_classes = (MultiPartParser,)
