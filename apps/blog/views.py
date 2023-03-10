@@ -6,10 +6,9 @@ from rest_framework.parsers import MultiPartParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from apps.blog.models import Category, Blog
+from apps.blog.models import Category, Blog, BlogView
 from apps.blog.serializers import CreateCategoryModelSerializer, CategoryModelSerializer, BlogModelSerializer, \
     ListBlogModelSerializer, RetrieveBlogModelSerializer
-from apps.common.models import AnnouncementView
 
 
 class CreateCategoryAPIView(CreateAPIView):
@@ -79,12 +78,12 @@ class RetrieveBlogAPIView(RetrieveAPIView):
         queryset = super().get_queryset()
         blog = get_object_or_404(queryset, slug=self.kwargs["slug"])
         if self.request.user.is_authenticated:
-            AnnouncementView.objects.update_or_create(
+            BlogView.objects.update_or_create(
                 blog=blog,
                 user=self.request.user,
             )
         elif self.request.headers.get("device-id", None):
-            AnnouncementView.objects.update_or_create(
+            BlogView.objects.update_or_create(
                 blog=blog,
                 device_id=self.request.headers.get("device-id", None),
             )

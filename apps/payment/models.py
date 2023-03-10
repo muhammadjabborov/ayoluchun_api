@@ -1,12 +1,13 @@
 from django.db import models
 from django.utils.translation import gettext as _
 
+from ..account.models import User
 from ..common.models import BaseModel, PaymentType, PaymentStatusType
 from ..course.models import Course
 
 
 class Payment(BaseModel):
-    user = models.ForeignKey('auth.User', verbose_name=_('User'), on_delete=models.CASCADE,
+    user = models.ForeignKey(User, verbose_name=_('User'), on_delete=models.CASCADE,
                              related_name='user_payments')
     sum = models.DecimalField(verbose_name=_('Sum'), decimal_places=2, max_digits=10, default=0)
     course = models.ForeignKey(Course, verbose_name=_('Course'), on_delete=models.CASCADE,

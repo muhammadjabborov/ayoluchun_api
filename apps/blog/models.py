@@ -4,7 +4,7 @@ from django.db.models import CharField, SlugField, ForeignKey, CASCADE, IntegerF
 from django.utils.translation import gettext_lazy as _
 from thumbnails.fields import ImageField
 
-from apps.common.models import BaseModel, AnnouncementView
+from apps.common.models import BaseModel
 
 
 class Category(BaseModel):
@@ -38,3 +38,9 @@ class Blog(BaseModel):
         verbose_name = 'Blog'
         verbose_name_plural = 'Blogs'
         ordering = ['-created_at']
+
+
+class BlogView(BaseModel):
+    device_id = models.CharField(max_length=100, verbose_name=_('Device ID'))
+    blog = ForeignKey(Blog, CASCADE, verbose_name=_('Blog'))
+    user = models.ForeignKey('account.User', verbose_name=_('user'), on_delete=models.CASCADE, null=True, blank=True)
