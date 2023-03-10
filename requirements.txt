@@ -36,3 +36,6 @@ sqlparse==0.4.3
 uritemplate==4.1.1
 urllib3==1.26.14
 qrcode==7.4.2
+
+rosetta==0.3
+django-modeltranslation==0.18.9

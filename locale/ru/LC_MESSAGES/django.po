@@ -1,0 +1,253 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-03-10 17:26+0500\n"
+"PO-Revision-Date: 2023-03-10 17:23+0500\n"
+"Last-Translator: Fazliddin Nabiyev <None>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
+"(n%100>=11 && n%100<=14)? 2 : 3);\n"
+"X-Translated-Using: django-rosetta 0.9.8\n"
+
+#: apps/account/admin.py:16
+msgid "Personal Info"
+msgstr "Личная информация"
+
+#: apps/account/admin.py:17
+msgid "Permissions"
+msgstr "Разрешения"
+
+#: apps/account/admin.py:18
+msgid "Important dates"
+msgstr "Важные даты"
+
+#: apps/account/models.py:11 apps/other/models.py:39 apps/other/models.py:54
+msgid "Email"
+msgstr "Электронная почта"
+
+#: apps/account/models.py:13 apps/other/models.py:38 apps/other/models.py:53
+msgid "Phone"
+msgstr "Телефон"
+
+#: apps/account/models.py:14
+msgid "First name"
+msgstr "Имя"
+
+#: apps/account/models.py:15
+msgid "Last name"
+msgstr "Фамилия"
+
+#: apps/account/models.py:16
+msgid "Birthday"
+msgstr "День рождения"
+
+#: apps/account/models.py:20
+msgid "date joined"
+msgstr "Дата присоединения"
+
+#: apps/account/models.py:21
+msgid "last login"
+msgstr "последний Войти"
+
+#: apps/account/models.py:47 apps/blog/models.py:12 apps/common/models.py:63
+#: apps/common/models.py:75 apps/course/models.py:11 apps/other/models.py:52
+msgid "Name"
+msgstr "Имя"
+
+#: apps/account/models.py:58 apps/course/models.py:44 apps/course/models.py:88
+#: apps/course/models.py:103 apps/course/models.py:120
+#: apps/payment/models.py:10
+msgid "User"
+msgstr "Пользователь"
+
+#: apps/account/models.py:60 apps/blog/models.py:29 apps/course/models.py:28
+#: apps/other/models.py:67
+msgid "Photo"
+msgstr "Фото"
+
+#: apps/account/models.py:61
+msgid "Region"
+msgstr "Область"
+
+#: apps/account/models.py:62
+msgid "Post code"
+msgstr "Почтовый индекс"
+
+#: apps/account/models.py:63 apps/other/models.py:40
+msgid "Address"
+msgstr "Адрес"
+
+#: apps/account/models.py:64
+msgid "Instagram"
+msgstr "Инстаграм"
+
+#: apps/account/models.py:65
+msgid "Imkon"
+msgstr "Имкон"
+
+#: apps/account/models.py:66
+msgid "Linkedin"
+msgstr "Линкедин"
+
+#: apps/account/models.py:67
+msgid "Job"
+msgstr ""
+
+#: apps/account/models.py:68
+msgid "Job Position"
+msgstr "Место работы"
+
+#: apps/account/models.py:69
+msgid "About author"
+msgstr "Об авторе"
+
+#: apps/account/models.py:70
+msgid "Created at"
+msgstr "Создан в"
+
+#: apps/account/models.py:71
+msgid "Update at"
+msgstr "Обновление в"
+
+#: apps/account/models.py:77 apps/blog/models.py:28 apps/course/models.py:24
+msgid "Author"
+msgstr "Автор"
+
+#: apps/account/models.py:78
+msgid "Authors"
+msgstr "Автор"
+
+#: apps/blog/models.py:13 apps/blog/models.py:27 apps/course/models.py:12
+msgid "Slug"
+msgstr "Слаг"
+
+#: apps/blog/models.py:25 apps/course/models.py:23
+msgid "Category"
+msgstr "Категория"
+
+#: apps/blog/models.py:26 apps/course/models.py:25 apps/course/models.py:58
+#: apps/course/models.py:73 apps/other/models.py:10 apps/other/models.py:25
+#: apps/other/models.py:37 apps/other/models.py:66
+msgid "Title"
+msgstr "Заголовок"
+
+#: apps/blog/models.py:32 apps/course/models.py:30 apps/course/models.py:59
+#: apps/other/models.py:12 apps/other/models.py:26
+msgid "Description"
+msgstr "Описание"
+
+#: apps/blog/models.py:44 apps/course/models.py:45
+msgid "Device ID"
+msgstr "Идентификатор устройства"
+
+#: apps/blog/models.py:45
+msgid "Blog"
+msgstr "Блог"
+
+#: apps/blog/models.py:46
+msgid "user"
+msgstr "пользователь"
+
+#: apps/common/models.py:74
+msgid "Country"
+msgstr "Страна"
+
+#: apps/course/models.py:26 apps/payment/models.py:15 apps/payment/models.py:17
+msgid "Sales type"
+msgstr "Тип продажи"
+
+#: apps/course/models.py:27 apps/course/models.py:123
+msgid "Rate"
+msgstr "Ставка"
+
+#: apps/course/models.py:29 apps/course/models.py:74
+msgid "Video"
+msgstr "Видео"
+
+#: apps/course/models.py:31
+msgid "Price"
+msgstr "Цена"
+
+#: apps/course/models.py:32
+msgid "Discount"
+msgstr "Скидка"
+
+#: apps/course/models.py:43 apps/course/models.py:56 apps/course/models.py:118
+#: apps/payment/models.py:13
+msgid "Course"
+msgstr "Курс"
+
+#: apps/course/models.py:51 apps/course/models.py:52
+msgid "Course View"
+msgstr "Просмотр курса"
+
+#: apps/course/models.py:60 apps/course/models.py:75
+msgid "Order"
+msgstr "Заказ"
+
+#: apps/course/models.py:71
+msgid "Lesson"
+msgstr "Урок"
+
+#: apps/course/models.py:86
+msgid "Content views"
+msgstr "Просмотры контента"
+
+#: apps/course/models.py:101
+msgid "Content"
+msgstr "Содержание"
+
+#: apps/course/models.py:105 apps/course/models.py:124
+msgid "Comment"
+msgstr "Комментарий"
+
+#: apps/course/models.py:122
+msgid "File"
+msgstr "Файл"
+
+#: apps/other/models.py:13
+msgid "Link"
+msgstr "Ссылка"
+
+#: apps/other/models.py:14
+msgid "Is active"
+msgstr "Активен"
+
+#: apps/other/models.py:41
+msgid "Map"
+msgstr "Карта"
+
+#: apps/other/models.py:55
+msgid "Message"
+msgstr "Сообщение"
+
+#: apps/other/models.py:68
+msgid "Context"
+msgstr "Содержание"
+
+#: apps/payment/models.py:12
+msgid "Sum"
+msgstr "Сумма"
+
+#: config/settings.py:151
+msgid "O'zbekcha"
+msgstr "Узбекский"
+
+#: config/settings.py:152
+msgid "Русский"
+msgstr "Русский"
+
+#~ msgid "Username"
+#~ msgstr "Имя пользователя"

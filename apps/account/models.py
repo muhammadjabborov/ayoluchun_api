@@ -9,7 +9,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(verbose_name=_("Email"), max_length=60, unique=True, null=True)
-    username = models.CharField(verbose_name=_("Username"), max_length=30, unique=True)
+    username = models.CharField(verbose_name="Username", max_length=30, unique=True)
     phone = PhoneNumberField(verbose_name=_("Phone"), unique=True)
     first_name = models.CharField(verbose_name=_("First name"), max_length=30)
     last_name = models.CharField(verbose_name=_("Last name"), max_length=30)
@@ -64,7 +64,7 @@ class Author(BaseModel):
     instagram = models.CharField(verbose_name=_('Instagram'), max_length=255)
     imkon = models.CharField(verbose_name=_('Imkon'), max_length=255)
     linkedin = models.CharField(verbose_name=_('Linkedin'), max_length=255)
-    job = models.CharField(verbose_name=_('Linkedin'), max_length=100)
+    job = models.CharField(verbose_name=_('Job'), max_length=100)
     position = models.ForeignKey(JobPosition, verbose_name=_('Job Position'), on_delete=models.CASCADE)
     bio = RichTextField(verbose_name=_("About author"), null=True)
     created_at = models.DateTimeField(verbose_name=_('Created at'), auto_now_add=True)
@@ -74,5 +74,5 @@ class Author(BaseModel):
         return self.user.username
 
     class Meta:
-        verbose_name = "Author"
-        verbose_name_plural = "Authors"
+        verbose_name = _("Author")
+        verbose_name_plural = _("Authors")

@@ -35,5 +35,5 @@ JAZZMIN_SETTINGS = {
     "show_ui_builder": False,
     "changeform_format": "horizontal_tabs",
     "changeform_format_overrides": {"users.user": "collapsible", "auth.group": "vertical_tabs"},
-    "language_chooser": False,
+    "language_chooser": True,
 }
