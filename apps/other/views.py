@@ -1,5 +1,5 @@
 from rest_framework.generics import ListAPIView, ListCreateAPIView
-from rest_framework.parsers import JSONParser, MultiPartParser
+from rest_framework.parsers import MultiPartParser
 # from .models import *
 from .serializers import *
 
