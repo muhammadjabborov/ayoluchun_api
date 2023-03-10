@@ -1,4 +1,4 @@
-from rest_framework.fields import IntegerField
+from rest_framework.fields import IntegerField, CharField
 from rest_framework.serializers import ModelSerializer
 
 from apps.blog.models import Blog, Category
@@ -14,7 +14,7 @@ class CategoryModelSerializer(ModelSerializer):
     class Meta:
         model = Category
         fields = (
-            'id', 'name', 'slug'
+            'id', 'name', 'slug', 'icon'
         )
 
 
@@ -33,6 +33,18 @@ class ListBlogModelSerializer(ModelSerializer):
         )
 
 
+class RetrieveBlogModelSerializer(ModelSerializer):
+    title = CharField(max_length=255)
+    views = IntegerField(read_only=True)
+
+    class Meta:
+        model = Blog
+        fields = (
+            'id', 'title', 'author', 'category', 'views',
+            'description', 'photo', 'get_thumbnails'
+        )
+
+
 class BlogModelSerializer(ModelSerializer):
     views = IntegerField(read_only=True)
 
@@ -40,5 +52,5 @@ class BlogModelSerializer(ModelSerializer):
         model = Blog
         fields = (
             'id', 'title', 'author', 'category', 'views',
-            'photo', 'get_thumbnails', 'description',
+            'photo', 'description',
         )

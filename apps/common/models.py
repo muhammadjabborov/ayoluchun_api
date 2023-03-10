@@ -3,7 +3,7 @@ from django.utils.text import slugify
 from django.utils.translation import gettext as _
 
 from django.db import models
-from django.db.models import Model, DateTimeField
+from django.db.models import Model, DateTimeField, SET_NULL, ForeignKey, CASCADE
 
 
 def generate_unique_slug(klass, field):
@@ -36,10 +36,8 @@ class BaseModel(Model):
 
 class AnnouncementView(BaseModel):
     device_id = models.CharField(max_length=100)
-    views = models.IntegerField(default=0)
-
-    class Meta:
-        abstract = True
+    blog = ForeignKey('blog.Blog', CASCADE)
+    user = models.ForeignKey('account.User', SET_NULL, null=True, blank=True)
 
 
 class GenderType(models.TextChoices):
@@ -86,5 +84,5 @@ class Region(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = "Country"
-        verbose_name_plural = "Countries"
+        verbose_name = "Region"
+        verbose_name_plural = "Regions"
