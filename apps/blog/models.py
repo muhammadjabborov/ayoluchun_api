@@ -44,3 +44,6 @@ class BlogView(BaseModel):
     device_id = models.CharField(max_length=100, verbose_name=_('Device ID'))
     blog = ForeignKey(Blog, CASCADE, verbose_name=_('Blog'))
     user = models.ForeignKey('account.User', verbose_name=_('user'), on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return self.device_id

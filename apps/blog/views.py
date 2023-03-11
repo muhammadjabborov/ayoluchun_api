@@ -1,28 +1,29 @@
-from django.db.models import F
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView, GenericAPIView, \
+from rest_framework.filters import SearchFilter
+from rest_framework.generics import CreateAPIView, ListAPIView, GenericAPIView, \
     DestroyAPIView, RetrieveAPIView, UpdateAPIView, get_object_or_404
 from rest_framework.parsers import MultiPartParser
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 
 from apps.blog.models import Category, Blog, BlogView
 from apps.blog.serializers import CreateCategoryModelSerializer, CategoryModelSerializer, BlogModelSerializer, \
-    ListBlogModelSerializer, RetrieveBlogModelSerializer
+    ListBlogModelSerializer
 
 
 class CreateCategoryAPIView(CreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CreateCategoryModelSerializer
     parser_classes = (MultiPartParser,)
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAdminUser,)
 
 
 class ListCategoryAPIView(ListAPIView):
     queryset = Category.objects.order_by('-created_at')
     serializer_class = CategoryModelSerializer
     parser_classes = (MultiPartParser,)
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
 
 class RetrieveCategoryAPIView(RetrieveAPIView):
@@ -30,6 +31,7 @@ class RetrieveCategoryAPIView(RetrieveAPIView):
     serializer_class = CategoryModelSerializer
     lookup_field = 'slug'
     parser_classes = (MultiPartParser,)
+    permission_classes = (IsAuthenticated,)
 
 
 class UpdateCategoryAPIView(UpdateAPIView):
@@ -37,7 +39,7 @@ class UpdateCategoryAPIView(UpdateAPIView):
     serializer_class = CategoryModelSerializer
     lookup_field = 'slug'
     parser_classes = (MultiPartParser,)
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAdminUser,)
 
 
 class DestroyCategoryAPIView(DestroyAPIView):
@@ -45,15 +47,19 @@ class DestroyCategoryAPIView(DestroyAPIView):
     serializer_class = CategoryModelSerializer
     lookup_field = 'slug'
     parser_classes = (MultiPartParser,)
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAdminUser,)
 
 
 class BlogAPIView(GenericAPIView):
     queryset = Blog.objects.all()
     serializer_class = BlogModelSerializer
     parser_classes = (MultiPartParser,)
-
-    # permission_classes = (IsAuthenticated,)
+    filter_backends = (DjangoFilterBackend, SearchFilter)
+    search_fields = ('id', 'title', 'description')
+    permission_classes = {
+        'list': (IsAuthenticated,),
+        'post': (IsAdminUser,)
+    }
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
@@ -73,19 +79,42 @@ class RetrieveBlogAPIView(RetrieveAPIView):
     serializer_class = BlogModelSerializer
     parser_classes = (MultiPartParser,)
     lookup_field = 'slug'
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
+        # print(self.request.META.get('HTTP_USER_AGENT', ''))
         queryset = super().get_queryset()
         blog = get_object_or_404(queryset, slug=self.kwargs["slug"])
         if self.request.user.is_authenticated:
-            BlogView.objects.update_or_create(
+            blog_view, created = BlogView.objects.update_or_create(
                 blog=blog,
                 user=self.request.user,
             )
-        elif self.request.headers.get("device-id", None):
-            BlogView.objects.update_or_create(
+            if created:
+                blog.views += 1
+                blog.save()
+        elif self.request.META.get('HTTP_USER_AGENT', ''):
+            device_id = self.request.META.get('HTTP_USER_AGENT', '')
+            blog_view, created = BlogView.objects.update_or_create(
                 blog=blog,
-                device_id=self.request.headers.get("device-id", None),
+                device_id=device_id,
             )
+            if created:
+                blog.views += 1
+                blog.save()
 
         return queryset
+
+
+class UpdateBlogAPIView(UpdateAPIView):
+    queryset = Blog.objects.all()
+    serializer_class = BlogModelSerializer
+    parser_classes = (MultiPartParser,)
+    lookup_field = 'slug'
+    permission_classes = (IsAdminUser,)
+
+
+class DestroyBlogAPIView(DestroyAPIView):
+    queryset = Blog.objects.all()
+    lookup_field = 'slug'
+    permission_classes = (IsAdminUser,)

@@ -20,16 +20,20 @@ class Category(BaseModel):
 
 
 class Course(BaseModel):
-    category = models.ForeignKey(Category, verbose_name=_('Category'), on_delete=models.CASCADE, related_name='category_courses')
-    author = models.ForeignKey(Author, verbose_name=_('Author'), on_delete=models.CASCADE, related_name='author_courses')
+    category = models.ForeignKey(Category, verbose_name=_('Category'), on_delete=models.CASCADE,
+                                 related_name='category_courses')
+    author = models.ForeignKey(Author, verbose_name=_('Author'), on_delete=models.CASCADE,
+                               related_name='author_courses')
     title = models.CharField(verbose_name=_('Title'), max_length=255)
-    type = models.CharField(verbose_name=_("Sales type"), max_length=25, choices=SalesType.choices, null=True, blank=True)
+    type = models.CharField(verbose_name=_("Sales type"), max_length=25, choices=SalesType.choices, null=True,
+                            blank=True)
     rate = models.DecimalField(verbose_name=_('Rate'), decimal_places=2, max_digits=5, default=0)
     photo = models.ImageField(verbose_name=_("Photo"), upload_to="course/photo/%Y/%m/%d/")
     video = models.FileField(verbose_name=_("Video"), upload_to="course/video/%Y/%m/%d/")
     description = RichTextField(verbose_name=_("Description"))
     price = models.DecimalField(verbose_name=_('Price'), decimal_places=2, max_digits=10, default=0)
-    discount = models.DecimalField(verbose_name=_('Discount'), decimal_places=2, max_digits=10, default=0, null=True, blank=True)
+    discount = models.DecimalField(verbose_name=_('Discount'), decimal_places=2, max_digits=10, default=0, null=True,
+                                   blank=True)
 
     def __str__(self):
         return self.title
@@ -40,9 +44,11 @@ class Course(BaseModel):
 
 
 class CourseView(BaseModel):
-    course = models.ForeignKey(Course, verbose_name=_("Course"), on_delete=models.CASCADE, related_name="course_views",)
-    user = models.ForeignKey(User, verbose_name=_("User"), on_delete=models.CASCADE, related_name="user_views", null=True, blank=True,)
-    device_id = models.CharField( verbose_name=_("Device ID"), max_length=255, null=True, blank=True,)
+    course = models.ForeignKey(Course, verbose_name=_("Course"), on_delete=models.CASCADE,
+                               related_name="course_views", )
+    user = models.ForeignKey(User, verbose_name=_("User"), on_delete=models.CASCADE, related_name="user_views",
+                             null=True, blank=True, )
+    device_id = models.CharField(verbose_name=_("Device ID"), max_length=255, null=True, blank=True, )
 
     def __str__(self):
         return f"{self.course.title} {self.user.first_name}"
@@ -53,7 +59,7 @@ class CourseView(BaseModel):
 
 
 class Lesson(BaseModel):
-    cource = models.ForeignKey(Course, verbose_name=_('Course'), on_delete=models.CASCADE,
+    course = models.ForeignKey(Course, verbose_name=_('Course'), on_delete=models.CASCADE,
                                related_name='course_lessons')
     title = models.CharField(verbose_name=_('Title'), max_length=255)
     description = RichTextField(verbose_name=_('Description'))
@@ -82,7 +88,7 @@ class Content(BaseModel):
         verbose_name_plural = "Contents"
 
 
-class ContentViews(BaseModel):
+class ContentView(BaseModel):
     content = models.ForeignKey(Content, verbose_name=_('Content views'), on_delete=models.CASCADE,
                                 related_name='content_views')
     user = models.ForeignKey(User, verbose_name=_('User'), on_delete=models.CASCADE,
@@ -115,7 +121,7 @@ class ContentComment(BaseModel):
 
 
 class Certificate(BaseModel):
-    cource = models.ForeignKey(Course, verbose_name=_('Course'), on_delete=models.CASCADE,
+    course = models.ForeignKey(Course, verbose_name=_('Course'), on_delete=models.CASCADE,
                                related_name='course_certificates')
     user = models.ForeignKey(User, verbose_name=_('User'), on_delete=models.CASCADE,
                              related_name='user_certificates')

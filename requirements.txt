@@ -1,3 +1,4 @@
+arrow==1.2.3
 asgiref==3.6.0
 certifi==2022.12.7
 charset-normalizer==3.1.0
@@ -8,8 +9,10 @@ Django==4.1.7
 django-ckeditor==6.5.1
 django-cuser==2017.3.16
 django-environ==0.10.0
+django-filter==22.1
 django-jazzmin==2.6.0
 django-js-asset==2.0.0
+django-modeltranslation==0.18.9
 django-phonenumber-field==7.0.2
 django-thumbnails==0.7.0
 django-tinymce==3.5.0
@@ -20,22 +23,32 @@ idna==3.4
 inflection==0.5.1
 itypes==1.2.0
 Jinja2==3.1.2
+jinja2-time==0.2.0
+make==0.1.6.post2
 MarkupSafe==2.1.2
 modeltranslation==0.25
 packaging==23.0
 phonenumbers==8.13.7
 Pillow==9.4.0
 PyJWT==2.6.0
+pypng==0.20220715.0
+python-dateutil==2.8.2
 pytz==2022.7.1
+qrcode==7.4.2
 requests==2.28.2
 rosetta==0.3
 ruamel.yaml==0.17.21
 ruamel.yaml.clib==0.2.7
 shortuuid==1.0.11
+six==1.16.0
 sqlparse==0.4.3
+typing_extensions==4.5.0
 uritemplate==4.1.1
 urllib3==1.26.14
+<<<<<<< HEAD
 qrcode==7.4.2
 
 rosetta==0.3
 django-modeltranslation==0.18.9
+=======
+>>>>>>> 02a022f86cc9fb98a5c875cb2b4c5cbbeb038ce3
