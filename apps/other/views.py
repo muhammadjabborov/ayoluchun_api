@@ -17,12 +17,12 @@ class ListRulesOfUseAPIView(ListAPIView):
     serializer_class = RulesOfUseSerializer
 
 
-class ListContactAPIView(ListCreateAPIView):
+class ListContactAPIView(ListAPIView):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
 
 
-class ListMessageAPIView(ListCreateAPIView):
+class MessageAPIView(ListCreateAPIView):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
 
