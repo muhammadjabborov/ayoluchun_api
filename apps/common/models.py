@@ -28,6 +28,15 @@ class BaseModel(Model):
         if hasattr(self, "slug") and hasattr(self, "name"):
             if not self.slug:
                 self.slug = generate_unique_slug(self.__class__, self.name)
+
+        if hasattr(self, "slug") and hasattr(self, 'name_uz'):
+            if not self.slug:
+                self.slug = generate_unique_slug(self.__class__, self.name_uz)
+
+        if hasattr(self, "slug") and hasattr(self, 'name_ru'):
+            if not self.slug:
+                self.slug = generate_unique_slug(self.__class__, self.name_ru)
+
         super().save(*args, **kwargs)
 
     class Meta:

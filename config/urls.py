@@ -17,8 +17,7 @@ schema_view = get_schema_view(
     permission_classes=[permissions.AllowAny],
 )
 urlpatterns = [
-    path("i18n/", include("django.conf.urls.i18n")),
-    path('rosetta/', include('rosetta.urls')),
+    path("i18n/", include("django.conf.urls.i18n"))
 ]
 
 urlpatterns += i18n_patterns(
