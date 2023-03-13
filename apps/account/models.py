@@ -74,9 +74,12 @@ class Author(BaseModel):
     job = models.CharField(verbose_name=_('Job'), max_length=100)
     position = models.ForeignKey(JobPosition, verbose_name=_('Job Position'), on_delete=models.CASCADE)
     bio = RichTextField(verbose_name=_("About author"), null=True)
+<<<<<<< HEAD
 
     created_at = models.DateTimeField(verbose_name=_('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name=_('Update at'), auto_now=True)
+=======
+>>>>>>> e7365459c9085c3c2a44e10747c491ecd2ad0c19
 
     def __str__(self):
         return self.user.username

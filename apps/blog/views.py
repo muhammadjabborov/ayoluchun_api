@@ -56,10 +56,14 @@ class BlogAPIView(GenericAPIView):
     parser_classes = (MultiPartParser,)
     filter_backends = (DjangoFilterBackend, SearchFilter)
     search_fields = ('id', 'title', 'description')
-    permission_classes = {
-        'list': (IsAuthenticated,),
-        'post': (IsAdminUser,)
-    }
+
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            self.permission_classes = (IsAuthenticated,)
+        else:
+            self.permission_classes = [IsAdminUser]
+
+        return super(BlogAPIView, self).get_permissions()
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)

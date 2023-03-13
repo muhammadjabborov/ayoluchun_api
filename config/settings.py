@@ -50,7 +50,7 @@ EXTRA_MODULES = [
     'thumbnails',
     'jazzmin',
     'modeltranslation',
-    'rosetta',
+
 ]
 
 INSTALLED_APPS = LOCAL_APPS + EXTRA_MODULES + THIRD_APPS
@@ -129,8 +129,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / "static"]
-# STATIC_ROOT = BASE_DIR / "static"
+STATIC_ROOT = BASE_DIR / "static"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
@@ -142,6 +141,13 @@ AUTH_USER_MODEL = 'account.User'
 MODELTRANSLATION_DEFAULT_LANGUAGE = "uz"
 MODELTRANSLATION_LANGUAGES = ("uz", "ru")
 MODELTRANSLATION_FALLBACK_LANGUAGES = ("uz", "ru")
+TRANSLATABLE_MODEL_MODULES = [
+    'account.models',
+    'blog.models',
+    'common.models',
+    'course.models',
+    'other.models'
+]
 
 
 def gettext(s):
