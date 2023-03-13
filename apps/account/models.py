@@ -5,6 +5,7 @@ from django.utils.translation import gettext as _
 from ckeditor.fields import RichTextField
 from ..common.models import BaseModel, GenderType, Region
 from phonenumber_field.modelfields import PhoneNumberField
+from thumbnails.fields import ImageField
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -16,6 +17,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     birthday = models.DateTimeField(verbose_name=_('Birthday'), null=True, blank=True)
     gender = models.CharField(max_length=15, choices=GenderType.choices, default=GenderType.FEMALE)
     is_gmail_active = models.BooleanField(default=False)
+    photo = ImageField(_('Photo'), upload_to='photos/%Y/%m/%d/', null=True)
+    get_thumbnails = ImageField(pregenerated_sizes=["small", "large", "medium"], null=True)
 
     date_joined = models.DateTimeField(verbose_name=_("date joined"), auto_now_add=True)
     last_login = models.DateTimeField(verbose_name=_("last login"), auto_now=True)
@@ -42,6 +45,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name = "User"
         verbose_name_plural = "Users"
 
+    @property
+    def full_name(self):
+        return f"{self.last_name} {self.first_name}"
+
 
 class JobPosition(BaseModel):
     name = models.CharField(verbose_name=_('Name'), max_length=255)
@@ -67,6 +74,7 @@ class Author(BaseModel):
     job = models.CharField(verbose_name=_('Job'), max_length=100)
     position = models.ForeignKey(JobPosition, verbose_name=_('Job Position'), on_delete=models.CASCADE)
     bio = RichTextField(verbose_name=_("About author"), null=True)
+
     created_at = models.DateTimeField(verbose_name=_('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name=_('Update at'), auto_now=True)
 

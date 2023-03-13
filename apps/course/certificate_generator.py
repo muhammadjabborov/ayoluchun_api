@@ -21,14 +21,14 @@ def generate_name():
     return password
 
 
-def generate_qrcode(username, promocode):
+def generate_qrcode(first_name, course):
     qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
         box_size=12,
         border=2,
     )
-    qr.add_data(f"username: {username}\npassword: {promocode}\nwebsite: {WEBSITE}")
+    qr.add_data(f"full name: {first_name}\ncourse: {course}\nwebsite: {WEBSITE}")
     qr.make(fit=True)
 
     img = qr.make_image(fill_color="black", back_color="white")
@@ -36,34 +36,36 @@ def generate_qrcode(username, promocode):
     return os.path.join(BASE_DIR, 'media', 'certificate', 'default_certificate', 'qrcode.png')
 
 
-def certificate_generate(student):
+def certificate_generate(user, course):
     text_y_position = 1300
     img = Image.open(CERTIFICATE, mode='r')
     image_width = img.width
     image_height = img.height
-    # f = open(FONT, 'rb')
     draw = ImageDraw.Draw(img)
     font = ImageFont.truetype(FONT, size=150)
-    qrcode_file = generate_qrcode(student['username'], student['promo_code'])
+    qrcode_file = generate_qrcode(user.full_name, course.title)
     img2 = Image.open(qrcode_file, mode='r')
     qrcode_x = 880
     qrcode_y = 1900
-    text_width = draw.textlength(student['full_name'], font=font)
-    draw.text((
-        (image_width + 1370 - text_width - (image_width - 3200)) / 2,
-        text_y_position
-    ),
-        student['full_name'], font=font, fill="#0e89c4"
+    text_width = draw.textlength(user.full_name, font=font)
+    draw.text(
+        (1700, text_y_position-300), course.title, font=ImageFont.truetype(FONT, size=120), fill="#000000"
+    )
+    draw.text(
+        ((image_width + 1370 - text_width - (image_width - 3200)) / 2, text_y_position), user.full_name, font=font, fill="#0e89c4"
+    )
+    draw.text(
+        (1550, text_y_position+200), course.text_for_certificate, font=ImageFont.truetype(FONT, size=120), fill="#000000"
     )
 
     img.paste(img2, (qrcode_x, qrcode_y))
     if exists(os.path.join(CER_DIR, 'media', 'certificate')) == False:
         os.makedirs(os.path.join(CER_DIR, 'media', 'certificate'))
-    file_name = f"{student['full_name']}.jpg"
+    file_name = f"{user.full_name}.jpg"
     save_img_path = os.path.join(CER_DIR, 'media', 'certificate', file_name)
     if exists(save_img_path):
         while True:
-            file_name = f"{student['full_name']}{generate_name()}.jpg"
+            file_name = f"{user.full_name}{generate_name()}.jpg"
             save_img_path = os.path.join(CER_DIR, 'media', 'certificate', file_name)
             if exists(save_img_path):
                 continue
@@ -72,12 +74,3 @@ def certificate_generate(student):
     img.save(save_img_path)
 
     return os.path.join('certificate', file_name)
-
-
-st = {
-    "full_name": "Eshpulatov Azizjon",
-    "promo_code": "UIC",
-    "username": "Azizjon"
-}
-
-certificate_generate(student=st)

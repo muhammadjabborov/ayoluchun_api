@@ -1,6 +1,7 @@
 from ckeditor.fields import RichTextField
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
+from django.db.models import Avg
 from django.utils.translation import gettext as _
 
 from ..account.models import Author, User
@@ -25,6 +26,7 @@ class Course(BaseModel):
     author = models.ForeignKey(Author, verbose_name=_('Author'), on_delete=models.CASCADE,
                                related_name='author_courses')
     title = models.CharField(verbose_name=_('Title'), max_length=255)
+    slug = models.SlugField(verbose_name=_('Slug'), max_length=255, null=True)
     type = models.CharField(verbose_name=_("Sales type"), max_length=25, choices=SalesType.choices, null=True,
                             blank=True)
     rate = models.DecimalField(verbose_name=_('Rate'), decimal_places=2, max_digits=5, default=0)
@@ -34,6 +36,7 @@ class Course(BaseModel):
     price = models.DecimalField(verbose_name=_('Price'), decimal_places=2, max_digits=10, default=0)
     discount = models.DecimalField(verbose_name=_('Discount'), decimal_places=2, max_digits=10, default=0, null=True,
                                    blank=True)
+    text_for_certificate = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.title
@@ -45,13 +48,13 @@ class Course(BaseModel):
 
 class CourseView(BaseModel):
     course = models.ForeignKey(Course, verbose_name=_("Course"), on_delete=models.CASCADE,
-                               related_name="course_views", )
+                               related_name="course_views")
     user = models.ForeignKey(User, verbose_name=_("User"), on_delete=models.CASCADE, related_name="user_views",
-                             null=True, blank=True, )
-    device_id = models.CharField(verbose_name=_("Device ID"), max_length=255, null=True, blank=True, )
+                             null=True, blank=True)
+    device_id = models.CharField(verbose_name=_("Device ID"), max_length=255, null=True, blank=True)
 
     def __str__(self):
-        return f"{self.course.title} {self.user.first_name}"
+        return f"{self.course.title}"
 
     class Meta:
         verbose_name = _("Course View")
@@ -130,7 +133,7 @@ class Certificate(BaseModel):
     comment = models.CharField(verbose_name=_('Comment'), max_length=255)
 
     def __str__(self):
-        return self.cource.title
+        return self.course.title
 
     class Meta:
         verbose_name = "Certificate"

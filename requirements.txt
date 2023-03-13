@@ -45,10 +45,8 @@ sqlparse==0.4.3
 typing_extensions==4.5.0
 uritemplate==4.1.1
 urllib3==1.26.14
-<<<<<<< HEAD
-qrcode==7.4.2
 
+qrcode==7.4.2
+celery==5.2.7
 rosetta==0.3
 django-modeltranslation==0.18.9
-=======
->>>>>>> 02a022f86cc9fb98a5c875cb2b4c5cbbeb038ce3

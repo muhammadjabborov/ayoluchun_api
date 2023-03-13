@@ -50,6 +50,12 @@ class UserDataSerializer(ModelSerializer):
         fields = ('id', 'username', 'first_name', 'last_name', 'phone', 'username', 'birthday', 'gender')
 
 
+class UserSerializerForComment(ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'first_name', 'last_name', 'photo',)
+
+
 class JobPositionSerializer(ModelSerializer):
     class Meta:
         model = JobPosition

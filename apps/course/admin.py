@@ -7,6 +7,7 @@ from .models import Category, Course, CourseView, Lesson, Content, ContentView, 
 class CategoryModelAdmin(ModelAdmin):
     list_display = ('id', 'name', 'slug')
     list_display_links = ('id', 'name')
+    prepopulated_fields = {"slug": ("name",)}
 
 
 @admin.register(Course)
@@ -16,7 +17,7 @@ class CourseModelAdmin(ModelAdmin):
     list_filter = ('category', 'type', 'author')
     date_hierarchy = ("created_at")
     search_fields = ("id", "title", "price", "price", "discount", 'description')
-
+    prepopulated_fields = {"slug": ("title",)}
 
 @admin.register(CourseView)
 class CourseViewModelAdmin(ModelAdmin):
