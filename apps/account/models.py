@@ -3,6 +3,8 @@ from django.db import models
 from .account_manager import AccountManager
 from django.utils.translation import gettext as _
 from ckeditor.fields import RichTextField
+
+from ..blog.models import Blog
 from ..common.models import BaseModel, GenderType, Region
 from phonenumber_field.modelfields import PhoneNumberField
 from thumbnails.fields import ImageField
@@ -74,15 +76,17 @@ class Author(BaseModel):
     job = models.CharField(verbose_name=_('Job'), max_length=100)
     position = models.ForeignKey(JobPosition, verbose_name=_('Job Position'), on_delete=models.CASCADE)
     bio = RichTextField(verbose_name=_("About author"), null=True)
-<<<<<<< HEAD
 
     created_at = models.DateTimeField(verbose_name=_('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name=_('Update at'), auto_now=True)
-=======
->>>>>>> e7365459c9085c3c2a44e10747c491ecd2ad0c19
 
     def __str__(self):
         return self.user.username
+
+    @property
+    def get_author_blogs(self):
+        blogs = Blog.objects.filter(author=self)
+        return blogs
 
     class Meta:
         verbose_name = _("Author")

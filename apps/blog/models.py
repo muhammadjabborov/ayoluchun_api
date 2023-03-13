@@ -25,7 +25,7 @@ class Blog(BaseModel):
     category = ForeignKey('blog.Category', CASCADE, _('Category'))
     title = CharField(_('Title'), max_length=255)
     slug = SlugField(_('Slug'), unique=True)
-    author = ForeignKey('account.Author', CASCADE, _('Author'))
+    author = ForeignKey('account.Author', CASCADE, related_name='blogs')
     photo = ImageField(_('Photo'), upload_to='photos/%Y/%m/%d/')
     get_thumbnails = ImageField(pregenerated_sizes=["small", "large", "medium"])
     views = IntegerField(default=0)

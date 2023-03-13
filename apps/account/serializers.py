@@ -2,7 +2,7 @@ from django.contrib.auth.hashers import make_password
 from django.db.transaction import atomic
 from phonenumber_field.serializerfields import PhoneNumberField
 from rest_framework.exceptions import ValidationError
-from rest_framework.fields import CharField, DateTimeField, ChoiceField
+from rest_framework.fields import CharField, DateTimeField, ChoiceField, EmailField
 from rest_framework.serializers import ModelSerializer, Serializer
 from ..account.models import User, JobPosition, Author
 
@@ -15,6 +15,7 @@ class RegistrationSerializer(Serializer):
     first_name = CharField(max_length=255)
     last_name = CharField(max_length=255)
     username = CharField(max_length=255)
+    email = EmailField()
     birthday = DateTimeField()
     gender = ChoiceField(choices=GENDER_TYPE)
     phone = PhoneNumberField()
@@ -62,10 +63,21 @@ class JobPositionSerializer(ModelSerializer):
         fields = ('id', 'name')
 
 
-class AuthorSerializer(ModelSerializer):
+class CreateAuthorModelSerializer(ModelSerializer):
     class Meta:
         model = Author
         fields = (
             'id', 'user', 'photo', 'region', 'address', 'post_code', 'instagram', 'imkon', 'linkedin', 'job',
             'position',
-            'bio')
+            'bio'
+        )
+
+
+class ListAuthorModelSerializer(ModelSerializer):
+    class Meta:
+        model = Author
+        fields = (
+            'id', 'user', 'photo', 'region', 'address', 'post_code', 'instagram', 'imkon', 'linkedin', 'job',
+            'position',
+            'bio', 'blogs'
+        )

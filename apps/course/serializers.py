@@ -1,10 +1,10 @@
 from rest_framework.fields import SerializerMethodField
 from rest_framework.serializers import ModelSerializer
 
-from ..common.models import PaymentStatusType
-from ..course.models import Category, Course, CourseView, Lesson, Content, ContentComment, Certificate, ContentView
-from ..account.serializers import AuthorSerializer, UserDataSerializer, UserSerializerForComment
-from ..payment.models import Payment
+from apps.common.models import PaymentStatusType
+from apps.course.models import Category, Course, CourseView, Lesson, Content, ContentComment, Certificate, ContentView
+from apps.account.serializers import UserDataSerializer, UserSerializerForComment
+from apps.payment.models import Payment
 
 
 class CategorySerializer(ModelSerializer):
@@ -88,10 +88,10 @@ class LessonSerializer(ModelSerializer):
         return serializer
 
     def get_is_viewed(self, lesson):
-        if ContentView.objects.filter(content__lesson=lesson, is_viewed=True).count()==0:
+        if ContentView.objects.filter(content__lesson=lesson, is_viewed=True).count() == 0:
             return False
-        return lesson.lesson_contents.all().count() == ContentView.objects.filter(content__lesson=lesson, is_viewed=True).count()
-
+        return lesson.lesson_contents.all().count() == ContentView.objects.filter(content__lesson=lesson,
+                                                                                  is_viewed=True).count()
 
     class Meta:
         model = Lesson
