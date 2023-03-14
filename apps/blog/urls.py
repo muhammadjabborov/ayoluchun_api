@@ -1,6 +1,6 @@
 from django.urls import path
 
-from apps.account.views import CreateAuthorAPIView
+from apps.account.views import CreateAuthorAPIView, ListAuthorAPIView
 from apps.blog.views import CreateCategoryAPIView, ListCategoryAPIView, BlogAPIView, UpdateCategoryAPIView, \
     RetrieveCategoryAPIView, DestroyCategoryAPIView, RetrieveBlogAPIView, UpdateBlogAPIView, DestroyBlogAPIView
 
@@ -15,5 +15,6 @@ urlpatterns = [
     path('blog/update/<str:slug>/', UpdateBlogAPIView.as_view()),
     path('blog/delete/<str:slug>/', DestroyBlogAPIView.as_view()),
     path('blog/author/create/', CreateAuthorAPIView.as_view()),
+    path('blog/author/list/', ListAuthorAPIView.as_view())
 
 ]

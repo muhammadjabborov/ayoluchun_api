@@ -2,9 +2,10 @@ from django.contrib.auth.hashers import make_password
 from django.db.transaction import atomic
 from phonenumber_field.serializerfields import PhoneNumberField
 from rest_framework.exceptions import ValidationError
-from rest_framework.fields import CharField, DateTimeField, ChoiceField, EmailField
+from rest_framework.fields import CharField, DateTimeField, ChoiceField, EmailField, IntegerField, DateField
 from rest_framework.serializers import ModelSerializer, Serializer
 from ..account.models import User, JobPosition, Author
+from ..blog.serializers import BlogModelSerializer
 
 
 class RegistrationSerializer(Serializer):
@@ -16,7 +17,7 @@ class RegistrationSerializer(Serializer):
     last_name = CharField(max_length=255)
     username = CharField(max_length=255)
     email = EmailField()
-    birthday = DateTimeField()
+    birthday = DateField()
     gender = ChoiceField(choices=GENDER_TYPE)
     phone = PhoneNumberField()
     password = CharField(max_length=255)
@@ -48,7 +49,11 @@ class RegistrationSerializer(Serializer):
 class UserDataSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'first_name', 'last_name', 'phone', 'username', 'birthday', 'gender')
+        fields = (
+            'id', 'photo', 'username',
+            'first_name', 'last_name', 'phone',
+            'username', 'birthday', 'gender'
+        )
 
 
 class UserSerializerForComment(ModelSerializer):
@@ -80,4 +85,43 @@ class ListAuthorModelSerializer(ModelSerializer):
             'id', 'user', 'photo', 'region', 'address', 'post_code', 'instagram', 'imkon', 'linkedin', 'job',
             'position',
             'bio', 'blogs'
+        )
+
+
+class UpdateUserModelSerializer(ModelSerializer):
+    GENDER_TYPE = [
+        ('MALE', 'Erkak'),
+        ('FEMALE', 'Ayol')
+    ]
+    first_name = CharField(max_length=255, required=False)
+    last_name = CharField(max_length=255, required=False)
+    username = CharField(max_length=255, required=False)
+    birthday = DateField(required=False)
+    gender = ChoiceField(choices=GENDER_TYPE)
+    phone = PhoneNumberField(required=False)
+    address = CharField(required=False)
+    instagram = CharField(required=False)
+    linkedin = CharField(required=False)
+    imkon_uz = CharField(required=False)
+    job = CharField(required=False)
+
+    def validate(self, data):
+        if User.objects.filter(phone=data['phone']).exists():
+            raise ValidationError({'message': 'The phone number is already exists'})
+        if User.objects.filter(username=data['username']).exists():
+            raise ValidationError({'message': 'The username is already exists'})
+        if User.objects.filter(email=data['email']).exists():
+            raise ValidationError({'message': 'The email is already exists'})
+
+        return data
+
+    class Meta:
+        model = User
+        fields = (
+            'id', 'first_name', 'last_name',
+            'username', 'gender', 'birthday',
+            'email', 'country', 'region',
+            'post_code', 'address', 'phone',
+            'instagram', 'imkon_uz', 'linkedin',
+            'job', 'position', 'bio', 'photo'
         )
