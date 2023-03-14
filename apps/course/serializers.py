@@ -1,10 +1,9 @@
 from rest_framework.fields import SerializerMethodField
 from rest_framework.serializers import ModelSerializer
 
+from apps.account.serializers import UserSerializerForComment
 from apps.common.models import PaymentStatusType
 from apps.course.models import Category, Course, CourseView, Lesson, Content, ContentComment, Certificate, ContentView
-from apps.account.serializers import UserDataSerializer, UserSerializerForComment
-from apps.payment.models import Payment
 
 
 class CategorySerializer(ModelSerializer):
@@ -31,7 +30,7 @@ class CourseSerializer(ModelSerializer):
 
     def get_is_paid(self, course):
         return course.course_payments.filter(payment_status_type=PaymentStatusType.SUCCESS,
-                                             user_id=self.context['request'].user.id).exists()
+                                             user_id=self.context['user_id']).exists()
 
     class Meta:
         model = Course
@@ -49,7 +48,7 @@ class CourseDetailSerializer(ModelSerializer):
 
     def get_is_paid(self, course):
         return course.course_payments.filter(payment_status_type=PaymentStatusType.SUCCESS,
-                                             user_id=self.context['request'].user.id).exists()
+                                             user_id=self.context['user_id']).exists()
 
     def get_author(self, obj):
         return f"{obj.author.user.first_name} {obj.author.user.first_name}"
@@ -88,9 +87,12 @@ class LessonSerializer(ModelSerializer):
         return serializer
 
     def get_is_viewed(self, lesson):
-        if ContentView.objects.filter(content__lesson=lesson, is_viewed=True).count() == 0:
+
+        if ContentView.objects.filter(content__lesson=lesson, is_viewed=True,
+                                      user_id=self.context['user_id']).count() == 0:
             return False
         return lesson.lesson_contents.all().count() == ContentView.objects.filter(content__lesson=lesson,
+                                                                                  user_id=self.context['user_id'],
                                                                                   is_viewed=True).count()
 
     class Meta:
@@ -99,15 +101,29 @@ class LessonSerializer(ModelSerializer):
 
 
 class ContentSerializer(ModelSerializer):
+    comments = SerializerMethodField()
+
+    def get_comments(self, content):
+        serializer = ContentCommentSerializer(content.content_comments.all(), many=True).data
+        return serializer
     class Meta:
         model = Content
-        fields = ('id', 'lesson', 'title', 'video')
+        fields = ('id', 'lesson', 'title', 'video', 'comments')
 
 
 class ContentCommentSerializer(ModelSerializer):
+    user = UserSerializerForComment(read_only=True)
+    replies = SerializerMethodField()
+
+    def get_replies(self, obj):
+        if obj.replies.count() == 0:
+            return None
+        serializer = self.__class__(obj.replies.all(), many=True)
+        return serializer.data
+
     class Meta:
         model = ContentComment
-        fields = ('id', 'content', 'user', 'comment', 'parent')
+        fields = ('id', 'user', 'comment', 'replies')
 
 
 class CertificateSerializer(ModelSerializer):
@@ -122,3 +138,9 @@ class CertificateCommentSerializer(ModelSerializer):
     class Meta:
         model = Certificate
         fields = ('id', 'user', 'comment', 'rate')
+
+
+class ContentViewSerializer(ModelSerializer):
+    class Meta:
+        model = ContentView
+        fields = ('id', 'user', 'content', 'is_viewed')

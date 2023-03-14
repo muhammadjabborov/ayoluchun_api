@@ -1,7 +1,6 @@
 from ckeditor.fields import RichTextField
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
-from django.db.models import Avg
 from django.utils.translation import gettext as _
 
 from ..account.models import Author, User
@@ -116,7 +115,7 @@ class ContentComment(BaseModel):
                                related_name='replies')
 
     def __str__(self):
-        return self.content.title
+        return str(self.content.id)
 
     class Meta:
         verbose_name = "Content comment"
