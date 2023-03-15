@@ -10,6 +10,7 @@ from ..common.models import BaseModel, SalesType, Region
 class Category(BaseModel):
     name = models.CharField(verbose_name=_('Name'), max_length=100)
     slug = models.SlugField(verbose_name=_('Slug'), max_length=130)
+    icon = models.ImageField(upload_to='category/icons/%Y/%m/%d/', null=True)
 
     def __str__(self):
         return self.name
@@ -79,7 +80,7 @@ class Content(BaseModel):
     lesson = models.ForeignKey(Lesson, verbose_name=_('Lesson'), on_delete=models.CASCADE,
                                related_name='lesson_contents')
     title = models.CharField(verbose_name=_('Title'), max_length=255)
-    video = models.FileField(verbose_name=_('Video'), upload_to="curse/lesson/content/%Y/%m/%d/")
+    video = models.FileField(verbose_name=_('Video'), upload_to="course/lesson/content/%Y/%m/%d/")
     order = models.IntegerField(verbose_name=_('Order'), default=0)
 
     def __str__(self):

@@ -1,7 +1,42 @@
-from rest_framework import status
+from django.urls import reverse
 from rest_framework.test import APITestCase
-from .models import Category
 
+from apps.course.models import Category
+from apps.course.serializers import CategorySerializer
+
+
+class CategoryRetrieveTestCase(APITestCase):
+    def setUp(self):
+        self.category = Category.objects.create(name="Test Category", slug="test-category")
+
+    def test_retrieve_category(self):
+        url = reverse('category-retrieve', kwargs={'slug': self.category.slug})
+        user_id = 1
+        response = self.client.get(url, {'user_id': user_id})
+        self.assertEqual(response.status_code, 200)
+
+        expected_data = CategorySerializer(instance=self.category).data
+        expected_data['courses'] = [] # no courses for this category
+
+        expected_data = [
+    {
+        "id": 1,
+        "category": "category 1",
+        "author": "fazliddin fazliddin",
+        "title": "Kasb psixologiyasi",
+        "type": 'null',
+        "rate": "0.00",
+        "photo": "/media/course/photo/2023/03/15/Screenshot_from_2023-03-15_14-49-20.png",
+        "video": "/media/course/video/2023/03/15/github_clone_qilish._branch_ochish.mp4",
+        "description": "<p>-</p>",
+        "description_ru": "<p>-</p>",
+        "price": "1500000.00",
+        "discount": "0.00",
+        "slug": "kasb-psixologiyasi",
+        "is_paid": 'false'
+    }
+]
+        self.assertEqual(response.data, expected_data)
 
 class CourseTest(APITestCase):
     def test_get_all_category(self):

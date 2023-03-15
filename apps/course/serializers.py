@@ -87,7 +87,6 @@ class LessonSerializer(ModelSerializer):
         return serializer
 
     def get_is_viewed(self, lesson):
-
         if ContentView.objects.filter(content__lesson=lesson, is_viewed=True,
                                       user_id=self.context['user_id']).count() == 0:
             return False
@@ -106,6 +105,7 @@ class ContentSerializer(ModelSerializer):
     def get_comments(self, content):
         serializer = ContentCommentSerializer(content.content_comments.all(), many=True).data
         return serializer
+
     class Meta:
         model = Content
         fields = ('id', 'lesson', 'title', 'video', 'comments')

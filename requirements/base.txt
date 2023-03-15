@@ -23,3 +23,5 @@ celery==5.2.7
 rosetta==0.3
 django-modeltranslation==0.18.9
 pytest==7.2.2
+ruamel.yaml==0.17.21
+ruamel.yaml.clib==0.2.7
