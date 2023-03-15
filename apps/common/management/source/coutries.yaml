@@ -1,0 +1,20 @@
+- id: '1'
+  name_uz: Oʻzbekiston Respublikasi
+  name_oz: Ўзбекистон Республикаси
+  name_ru: Республика Узбекистан
+- id: '2'
+  name_uz: Qirgʻiziston Respublikasi
+  name_oz: Қирғизистон Республикаси
+  name_ru: Кыргызская Республика
+- id: '3'
+  name_uz: Qozogʻiston Respublikasi
+  name_oz: Қозоғистон Республикаси
+  name_ru: Республика Казахстан
+- id: '4'
+  name_uz: Tojikiston Respublikasi
+  name_oz: Тожикистон Республикаси
+  name_ru: Республика Таджикистан
+- id: '5'
+  name_uz: Turkmaniston Respublikasi
+  name_oz: Туркманистон Республикаси
+  name_ru: Республика Туркменистан
