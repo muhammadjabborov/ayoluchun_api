@@ -6,7 +6,7 @@ from .certificate_generator import certificate_generate
 from ..account.models import User
 from ..course.models import Category, Course, CourseView, Certificate, Content, ContentView, ContentComment
 from ..course.serializers import CategorySerializer, CourseSerializer, CertificateCommentSerializer, LessonSerializer, \
-    CertificateSerializer, ContentViewSerializer, ContentCommentSerializer
+    CertificateSerializer, ContentViewSerializer, ContentCommentCreateSerializer
 
 
 class CategoryList(ListAPIView):
@@ -20,26 +20,14 @@ class CategoryRetrieve(RetrieveAPIView):
     lookup_field = 'slug'
 
     def retrieve(self, request, *args, **kwargs):
-        user_id = request.GET['user_id']
         instance = self.get_object()
-        serializer = CourseSerializer(instance.category_courses.all(), many=True, context={"user_id": user_id}).data
+        serializer = CourseSerializer(instance.category_courses.all(), many=True, context={'request':request}).data
         return Response(serializer)
 
 
 class CourseList(ListAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
-
-    def list(self, request, *args, **kwargs):
-        user_id = request.GET['user_id']
-        queryset = self.filter_queryset(self.get_queryset())
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = self.get_serializer(page, many=True, context={'user_id': user_id})
-            return self.get_paginated_response(serializer.data)
-
-        serializer = self.get_serializer_class()(queryset, many=True, context={'user_id': user_id})
-        return Response(serializer.data)
 
 
 class CourseRetrieve(RetrieveAPIView):
@@ -48,9 +36,8 @@ class CourseRetrieve(RetrieveAPIView):
     lookup_field = 'slug'
 
     def retrieve(self, request, *args, **kwargs):
-        user_id = request.GET['user_id']
         instance = self.get_object()
-        serializer = CourseSerializer(instance, context={'user_id': user_id}).data
+        serializer = CourseSerializer(instance, context={"request":request}).data
 
         # update_view_count_task.delay(Course, instance, request.user, self.request.headers.get("device-id", None))
 
@@ -66,7 +53,7 @@ class CourseRetrieve(RetrieveAPIView):
                 device_id=device_id
             )
         course_comments = instance.course_certificates.all()
-        course_serializer = CertificateCommentSerializer(course_comments, many=True).data
+        course_serializer = CertificateCommentSerializer(course_comments, many=True, context={"request":request}).data
         data = {
             'course': serializer,
             'course_comments': course_serializer,
@@ -87,9 +74,8 @@ class LessonList(RetrieveAPIView):
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
-        user_id = request.GET['user_id']
         lessons = instance.course_lessons.all()
-        serializer = self.get_serializer_class()(lessons, many=True, context={'user_id': user_id}).data
+        serializer = self.get_serializer_class()(lessons, many=True, context={'request':request}).data
 
         return Response(serializer)
 
@@ -126,9 +112,8 @@ class CertificateRetrieve(RetrieveAPIView):
 
     def retrieve(self, request, *args, **kwargs):
         try:
-            user = request.GET['user']
             course = request.GET['course']
-            certificate = Certificate.objects.get(user_id=user, course_id=course)
+            certificate = Certificate.objects.get(user=request.user, course_id=course)
             serializer = self.get_serializer(certificate).data
             return Response(serializer)
         except Exception as e:
@@ -147,6 +132,7 @@ class CreateContentView(CreateAPIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
+
 class CreateContentComment(CreateAPIView):
     queryset = ContentComment.objects.all()
-    serializer_class = ContentCommentSerializer
+    serializer_class = ContentCommentCreateSerializer

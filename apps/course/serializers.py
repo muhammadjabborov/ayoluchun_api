@@ -30,7 +30,7 @@ class CourseSerializer(ModelSerializer):
 
     def get_is_paid(self, course):
         return course.course_payments.filter(payment_status_type=PaymentStatusType.SUCCESS,
-                                             user_id=self.context['user_id']).exists()
+                                             user=self.context['request'].user).exists()
 
     class Meta:
         model = Course
@@ -48,7 +48,7 @@ class CourseDetailSerializer(ModelSerializer):
 
     def get_is_paid(self, course):
         return course.course_payments.filter(payment_status_type=PaymentStatusType.SUCCESS,
-                                             user_id=self.context['user_id']).exists()
+                                             user=self.context['request'].user).exists()
 
     def get_author(self, obj):
         return f"{obj.author.user.first_name} {obj.author.user.first_name}"
@@ -88,10 +88,10 @@ class LessonSerializer(ModelSerializer):
 
     def get_is_viewed(self, lesson):
         if ContentView.objects.filter(content__lesson=lesson, is_viewed=True,
-                                      user_id=self.context['user_id']).count() == 0:
+                                      user=self.context['request'].user).count() == 0:
             return False
         return lesson.lesson_contents.all().count() == ContentView.objects.filter(content__lesson=lesson,
-                                                                                  user_id=self.context['user_id'],
+                                                                                  user=self.context['request'].user,
                                                                                   is_viewed=True).count()
 
     class Meta:
@@ -121,9 +121,10 @@ class ContentCommentSerializer(ModelSerializer):
         serializer = self.__class__(obj.replies.all(), many=True)
         return serializer.data
 
+class ContentCommentCreateSerializer(ModelSerializer):
     class Meta:
         model = ContentComment
-        fields = ('id', 'user', 'comment', 'replies')
+        fields = ('id', 'user', 'content', 'comment')
 
 
 class CertificateSerializer(ModelSerializer):
