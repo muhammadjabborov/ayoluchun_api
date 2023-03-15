@@ -12,6 +12,7 @@ class CategoryModelAdmin(ModelAdmin):
 
 @admin.register(Blog)
 class BlogModelAdmin(ModelAdmin):
+    exclude = ('slug', 'views', 'get_thumbnails')
     list_display = ('id', 'title', 'category_name')
 
     def category_name(self, obj):

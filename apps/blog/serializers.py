@@ -34,7 +34,7 @@ class ListBlogModelSerializer(ModelSerializer):
 
 
 class RetrieveBlogModelSerializer(ModelSerializer):
-    title = CharField(max_length=255)
+
     views = IntegerField(read_only=True)
 
     class Meta:
@@ -51,6 +51,6 @@ class BlogModelSerializer(ModelSerializer):
     class Meta:
         model = Blog
         fields = (
-            'id', 'title', 'author', 'category', 'views',
-            'photo', 'description',
+            'id',  'author', 'category', 'views',
+            'photo', 'description'
         )
