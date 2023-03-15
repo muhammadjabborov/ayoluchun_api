@@ -13,7 +13,7 @@ class CustomUserAdmin(UserAdmin):
     filter_horizontal = ("groups", "user_permissions")
     readonly_fields = ("date_joined", "last_login")
     fieldsets = (
-        (_("Personal Info"), {"fields": ("username", "email", "phone", "password")}),
+        (_("Personal Info"), {"fields": ("username", "email", "phone", "password", "is_gmail_active")}),
         (_("Permissions"), {"fields": ("is_active", "is_staff", "is_superuser")}),
         (_("Important dates"), {"fields": ("last_login", "date_joined")}),
     )

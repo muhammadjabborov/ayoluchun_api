@@ -50,7 +50,7 @@ class UserDataSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = (
-            'id', 'photo', 'username',
+            'id', 'photo', 'username', 'email',
             'first_name', 'last_name', 'phone',
             'username', 'birthday', 'gender'
         )
@@ -97,23 +97,13 @@ class UpdateUserModelSerializer(ModelSerializer):
     last_name = CharField(max_length=255, required=False)
     username = CharField(max_length=255, required=False)
     birthday = DateField(required=False)
-    gender = ChoiceField(choices=GENDER_TYPE)
+    gender = ChoiceField(choices=GENDER_TYPE, required=False)
     phone = PhoneNumberField(required=False)
     address = CharField(required=False)
     instagram = CharField(required=False)
     linkedin = CharField(required=False)
     imkon_uz = CharField(required=False)
     job = CharField(required=False)
-
-    def validate(self, data):
-        if User.objects.filter(phone=data['phone']).exists():
-            raise ValidationError({'message': 'The phone number is already exists'})
-        if User.objects.filter(username=data['username']).exists():
-            raise ValidationError({'message': 'The username is already exists'})
-        if User.objects.filter(email=data['email']).exists():
-            raise ValidationError({'message': 'The email is already exists'})
-
-        return data
 
     class Meta:
         model = User
